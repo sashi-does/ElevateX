@@ -51,7 +51,7 @@ const Schedule = () => {
 
   const handleConfirmBooking = async () => {
     try {
-      const url = "http://localhost:3000/api/add-booking";
+      const url = import.meta.env.VITE_OTP_URL+"/add-booking";
       const bookingData = {
         name: formData.name,
         email: formData.email,
@@ -77,7 +77,7 @@ const Schedule = () => {
   const sendOTP = async () => {
     setIsLoading(true);
     try {
-      const url = "http://localhost:3000/api/send-otp";
+      const url = import.meta.env.VITE_OTP_URL+"/send-otp";
       const email = { email: formData.email };
       const response = await axios.post(url, email);
 
@@ -99,7 +99,7 @@ const Schedule = () => {
     setIsVerifying(true);
     setOtpError("");
     try {
-      const url = "http://localhost:3000/api/verify-otp";
+      const url = import.meta.env.VITE_OTP_URL+"/verify-otp";
       const emailOTP = { email: formData.email, otp: formData.otp };
       const response = await axios.post(url, emailOTP);
 
