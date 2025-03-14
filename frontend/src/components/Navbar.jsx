@@ -3,23 +3,24 @@ import { Link as ScrollLink } from "react-scroll";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-
 const Navbar = ({ isMenuOpen, setIsMenuOpen, theme }) => {
-  const navLinks = theme === "Home" ? [
-    { name: "Home", to: "home" },
-    { name: "Services", to: "services" },
-    { name: "Portfolio", to: "portfolio" },
-    { name: "Testimonials", to: "testimonials" },
-    { name: "Contact", to: "contact" },
-  ] : [
-    { name: "Back", to: "home" },
-  ];
+  const navLinks =
+    theme === "Home"
+      ? [
+          { name: "Home", to: "home" },
+          { name: "Services", to: "services" },
+          { name: "Portfolio", to: "portfolio" },
+          { name: "Testimonials", to: "testimonials" },
+          { name: "Contact", to: "contact" },
+        ]
+      : [{ name: "Back", to: "home" }];
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
-  const hoverColor = theme === "Home" ? "hover:text-cyan-500" : "hover:text-orange-400";
+  const hoverColor =
+    theme === "Home" ? "hover:text-cyan-500" : "hover:text-orange-400";
   const activeTextColor = theme === "Home" ? "text-cyan-500" : "text-[#edc380]";
 
   useEffect(() => {
@@ -42,9 +43,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen, theme }) => {
 
   const renderNavLink = (link) => {
     const isActive = activeSection === link.to;
-    const activeStyles = isActive 
-      ? `${activeTextColor}` 
-      : "";
+    const activeStyles = isActive ? `${activeTextColor}` : "";
 
     if (isHomePage) {
       return (
@@ -109,14 +108,14 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen, theme }) => {
               className="text-2xl font-bold"
             >
               <img
-  className="w-28 sm:w-32 md:w-34 lg:w-38 h-auto opacity-[85%] max-w-full"
-  src={
-    theme === "Home"
-      ? "https://res.cloudinary.com/dvukdxs2m/image/upload/v1741979882/openskill-blue_bvrhs4.png"
-      : "https://res.cloudinary.com/dvukdxs2m/image/upload/v1741979882/openskill-orange_dr21gx.png"
-  }
-  alt="logo"
-/>
+                className="w-28 sm:w-32 md:w-34 lg:w-38 h-auto opacity-[85%] max-w-full"
+                src={
+                  theme === "Home"
+                    ? "https://res.cloudinary.com/dvukdxs2m/image/upload/v1741979882/openskill-blue_bvrhs4.png"
+                    : "https://res.cloudinary.com/dvukdxs2m/image/upload/v1741979882/openskill-orange_dr21gx.png"
+                }
+                alt="logo"
+              />
             </RouterLink>
           </motion.div>
 
@@ -129,7 +128,12 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen, theme }) => {
             className="md:hidden text-gray-300 focus:outline-none"
             aria-label="Toggle menu"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               {isMenuOpen ? (
                 <path
                   strokeLinecap="round"
