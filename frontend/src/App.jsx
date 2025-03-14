@@ -16,7 +16,7 @@ function MainLayout() {
 
   return (
     <div className="relative z-0 bg-primary">
-      <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <Navbar theme="Home" isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       
       <Element name="home">
         <Hero />
@@ -38,7 +38,7 @@ function MainLayout() {
         <Contact />
       </Element>
 
-      <Footer />
+      <Footer theme="Home"/>
     </div>
   );
 }

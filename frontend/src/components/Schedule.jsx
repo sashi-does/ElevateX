@@ -52,6 +52,8 @@ const Schedule = () => {
   const handleConfirmBooking = async () => {
     try {
       const url = import.meta.env.VITE_OTP_URL+"/add-booking";
+      
+      console.log(url)
       const bookingData = {
         name: formData.name,
         email: formData.email,
@@ -60,6 +62,9 @@ const Schedule = () => {
       };
       console.log(bookingData);
       await axios.post(url, bookingData);
+      const emailUrl = import.meta.env.VITE_OTP_URL+"/send-meeting-confirmation";
+      console.log(emailUrl)
+      await axios.post(emailUrl, {fullname: bookingData.name, email: bookingData.email, meetDateTime: bookingData.meetingTime});
       setShowPopup(true);
     } catch (e) {
       console.log(e.message);
@@ -180,71 +185,71 @@ const Schedule = () => {
               </p>
             </div>
 
-            <div className="bg-[#00000093] rounded-2xl p-8 max-w-4xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="bg-[#1b150065] rounded-xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">
-                    Select Date
-                  </h3>
-                  <ThemeProvider theme={darkTheme}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateCalendar
-                        value={selectedDate}
-                        onChange={(newValue) => setSelectedDate(newValue)}
-                        className="text-white"
-                        disablePast
-                        shouldDisableDate={shouldDisableDate}
-                        minDate={today}
-                      />
-                    </LocalizationProvider>
-                  </ThemeProvider>
-                </div>
+            <div className="bg-[#00000093] rounded-2xl p-4 sm:p-8 w-full max-w-4xl mx-auto overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+        <div className="bg-[#1b150065] rounded-xl p-4 sm:p-6 overflow-x-auto">
+          <h3 className="text-lg sm:text-xl font-semibold text-white mb-4">
+            Select Date
+          </h3>
+          <div className="min-w-[280px]">
+            <ThemeProvider theme={darkTheme}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateCalendar
+                  value={selectedDate}
+                  onChange={(newValue) => setSelectedDate(newValue)}
+                  className="text-white"
+                  disablePast
+                  shouldDisableDate={shouldDisableDate}
+                  minDate={today}
+                />
+              </LocalizationProvider>
+            </ThemeProvider>
+          </div>
+        </div>
 
-                <div className="bg-[#291e0042] rounded-xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">
-                    Select Time
-                  </h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {timeSlots.map((time) => (
-                      <button
-                        key={time}
-                        onClick={() => setSelectedTime(time)}
-                        className={`p-3 rounded-lg text-sm font-medium transition-colors ${
-                          selectedTime === time
-                            ? "bg-[#ac632e5c] text-white"
-                            : "bg-[#42400021] text-secondary hover:bg-[#ac632e5c] hover:text-white"
-                        }`}
-                      >
-                        {time}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
+        <div className="bg-[#291e0042] rounded-xl p-4 sm:p-6">
+          <h3 className="text-lg sm:text-xl font-semibold text-white mb-4">
+            Select Time
+          </h3>
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            {timeSlots.map((time) => (
+              <button
+                key={time}
+                onClick={() => setSelectedTime(time)}
+                className={`p-2 sm:p-3 rounded-lg text-sm font-medium transition-colors ${
+                  selectedTime === time
+                    ? "bg-[#ac632e5c] text-white"
+                    : "bg-[#42400021] text-secondary hover:bg-[#ac632e5c] hover:text-white"
+                }`}
+              >
+                {time}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-              <div className="mt-8">
-                <div className="max-w-md mx-auto text-center">
-                  <button
-                    onClick={() => setShowPopup(true)}
-                    disabled={!selectedDate || !selectedTime}
-                    className={`w-[300px] py-4 rounded-tl-[20px] rounded-br-[20px] font-bold text-white transition-colors ${
-                      selectedDate && selectedTime
-                        ? "border border-[#cfac3a39] bg-[#ffe81a2e] hover:bg-[#a86e04] hover:text-white"
-                        : "bg-gray-600 cursor-not-allowed"
-                    }`}
-                  >
-                    Confirm Consultation
-                  </button>
-                  <p className="mt-4 text-secondary text-sm">
-                    {selectedDate && selectedTime
-                      ? `Selected: ${selectedDate.format(
-                          "MMMM D, YYYY"
-                        )} at ${selectedTime}`
-                      : "Please select both date and time"}
-                  </p>
-                </div>
-              </div>
-            </div>
+      <div className="mt-6 sm:mt-8">
+        <div className="max-w-md mx-auto text-center">
+          <button
+            onClick={() => setShowPopup(true)}
+            disabled={!selectedDate || !selectedTime}
+            className={`w-full sm:w-[300px] py-3 sm:py-4 rounded-tl-[20px] rounded-br-[20px] font-bold text-white transition-colors ${
+              selectedDate && selectedTime
+                ? "border border-[#cfac3a39] bg-[#ffe81a2e] hover:bg-[#a86e04] hover:text-white"
+                : "bg-gray-600 cursor-not-allowed"
+            }`}
+          >
+            Confirm Consultation
+          </button>
+          <p className="mt-3 sm:mt-4 text-secondary text-xs sm:text-sm px-4">
+            {selectedDate && selectedTime
+              ? `Selected: ${selectedDate.format("MMMM D, YYYY")} at ${selectedTime}`
+              : "Please select both date and time"}
+          </p>
+        </div>
+      </div>
+    </div>
 
             <div className="mt-16 bg-[#f8ff9607] border border-[#cfac3a39] bg rounded-2xl p-8 max-w-4xl mx-auto">
               <h3 className="text-2xl font-bold text-white mb-6 text-center">
@@ -288,7 +293,7 @@ const Schedule = () => {
           </motion.div>
         </div>
 
-        <Footer />
+        <Footer theme="schedule"/>
 
         <AnimatePresence>
           {showPopup && (
