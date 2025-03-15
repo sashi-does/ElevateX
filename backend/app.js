@@ -17,6 +17,9 @@ app.listen(3000,() => {
     console.log("Server is running at port: " + port);
 })
 
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 
 
 
