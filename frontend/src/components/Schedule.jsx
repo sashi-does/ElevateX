@@ -83,6 +83,7 @@ const Schedule = () => {
     setIsLoading(true);
     try {
       const url = import.meta.env.VITE_OTP_URL+"/send-otp";
+      console.log(url);
       const email = { email: formData.email };
       const response = await axios.post(url, email);
 
